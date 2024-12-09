@@ -87,6 +87,8 @@ from tqdm.auto import tqdm
 from mlip_arena.models import MLIPEnum
 from mlip_arena.models.utils import get_freer_device
 
+import torch
+
 _valid_dynamics: dict[str, tuple[str, ...]] = {
     "nve": ("velocityverlet",),
     "nvt": ("nose-hoover", "langevin", "andersen", "berendsen"),
@@ -360,7 +362,11 @@ def run(
         md_runner.attach(_callback, interval=1)
 
         start_time = datetime.now()
-        md_runner.run(steps=n_steps)
+        with tqdm(total=n_steps, desc="Running MD Simulation") as pbar:
+            for _ in range(n_steps):
+                md_runner.run(steps=1)
+                pbar.update(1)
+        # md_runner.run(steps=n_steps)
         end_time = datetime.now()
 
     if traj_file is not None:
