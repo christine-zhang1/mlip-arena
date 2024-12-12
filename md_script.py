@@ -4,7 +4,6 @@ import pickle
 import pandas as pd
 
 from ase import Atoms
-from ase.build import bulk
 from ase.io import Trajectory
 from pathlib import Path
 
@@ -30,11 +29,11 @@ env = lmdb.open('/data/shared/MLFF/SPICE/maceoff_split/test/data.lmdb',
     max_readers=1,
 )
 
-df = pd.read_csv('/home/christine/mdsim/md_scripts/spice_molecules_set_copy.csv')
+df = pd.read_csv('/home/christine/mdsim/md_scripts/spice_molecules_set.csv')
 dsets = df['dataset']
 init_idxs = df['init_idx']
 
-model_name = 'CHGNet'
+model_name = 'MACE-MP(M)'
 
 with env.begin() as txn:
     # loop through molecules from molecules_set.csv
@@ -43,7 +42,6 @@ with env.begin() as txn:
         value = txn.get(str(idx).encode('ascii'))  # Encode the integer key as bytes
         data = pickle.loads(value)
         atoms = data_to_atoms(data)
-        breakpoint()
         model = MLIPEnum[model_name]
         print(f"Running {model_name} on {idx}")
         result = MD.fn(
@@ -57,6 +55,6 @@ with env.begin() as txn:
             temperature=300.0,
             # zero_linear_momentum=False,
             # zero_angular_momentum=False,
-            traj_file=f'CHGNet_sims/{model_name}_{dsets[i]}_{idx}.traj',
+            traj_file=f'{model_name}_sims/{dsets[i]}_{idx}.traj',
             traj_interval=100,
         )
