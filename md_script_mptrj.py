@@ -1,8 +1,5 @@
 # testing MD simulations. see md.py
 from ase.io import read
-from ase import Atoms
-from ase.io import Trajectory
-from pathlib import Path
 
 from mlip_arena.models import MLIPEnum
 from mlip_arena.tasks.md import run as MD
@@ -11,7 +8,7 @@ from mlip_arena.tasks.md import run as MD
 model_name = 'CHGNet'
 
 # loop through molecules from mptrj_ids.txt
-with open('mptrj_ids.txt', 'r') as f:
+with open('mptrj_ids_escher.txt', 'r') as f:
     for i, line in enumerate(f):
         atoms = read(line.strip())
         model = MLIPEnum[model_name]
