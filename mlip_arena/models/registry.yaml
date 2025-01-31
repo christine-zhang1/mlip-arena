@@ -257,7 +257,7 @@ DeepMD:
   nvt: true
   npt: true
 
-ORBv2(MPTrj):
+ORBv2:
   module: externals
   class: ORBv2
   family: orb

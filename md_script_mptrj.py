@@ -5,7 +5,7 @@ from mlip_arena.models import MLIPEnum
 from mlip_arena.tasks.md import run as MD
 
 
-model_name = 'CHGNet'
+model_name = 'ORBv2'
 
 # loop through molecules from mptrj_ids.txt
 with open('mptrj_ids_escher.txt', 'r') as f:
@@ -23,6 +23,8 @@ with open('mptrj_ids_escher.txt', 'r') as f:
             time_step=0.5,
             total_time=25000,
             temperature=300.0,
-            traj_file=f'CHGNet_MPTrj_sims/{i}_{molecule_num}.traj',
+            traj_file=f'{model_name}_MPTrj_sims_fixed/{i}_{molecule_num}.traj',
             traj_interval=100,
+            zero_linear_momentum=False,
+            zero_angular_momentum=False,
         )

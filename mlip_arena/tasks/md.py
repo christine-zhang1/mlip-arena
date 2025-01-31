@@ -124,7 +124,7 @@ def _get_ensemble_schedule(
 ) -> tuple[np.ndarray, np.ndarray]:
     if ensemble == "nve":
         # Disable thermostat and barostat
-        temperature = np.nan
+        # temperature = np.nan
         pressure = np.nan
         t_schedule = np.full(n_steps + 1, temperature)
         p_schedule = np.full(n_steps + 1, pressure)
